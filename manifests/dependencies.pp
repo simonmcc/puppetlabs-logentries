@@ -59,39 +59,18 @@ class logentries::dependencies {
 
     'debian', 'ubuntu': {
 
-      package { 'apt-transport-https':
-        ensure => latest,
-      }
-
-      file { '/etc/apt/trusted.gpg.d/logentries.gpg':
-        source => 'puppet:///modules/logentries/logentries.gpg',
-        notify => Exec['add-logentries-apt-key'],
-      }
-
-      exec { 'add-logentries-apt-key':
-        command     => 'apt-key add /etc/apt/trusted.gpg.d/logentries.gpg',
-        refreshonly => true,
-      }
-
-      file { '/etc/apt/sources.list.d/logentries.list':
-        ensure  => present,
-        content => template('logentries/apt_source.erb'),
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0644',
-        require => [Package['apt-transport-https'],
-                    File['/etc/apt/trusted.gpg.d/logentries.gpg']],
-        notify  => Exec['apt-update']
-      }
-
-      exec { 'apt-update':
-        command     => '/usr/bin/apt-get update',
-        refreshonly => true,
+      include apt
+      apt::source { 'logentries':
+        location    => 'http://rep.logentries.com',
+        repos       => 'main',
+        key         => 'C43C79AD',
+        key_server  => 'pgp.mit.edu',
+        include_src => false,
       }
 
       package { 'python-setproctitle':
         ensure  => latest,
-        require => Exec['apt-update']
+        require => Apt::Source['logentries']
       }
     }
 
