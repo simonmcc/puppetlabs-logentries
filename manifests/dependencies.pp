@@ -66,10 +66,10 @@ class logentries::dependencies {
         key        => {
           'id'     =>  'FA7FA2E59A243096E1B4105DA5270289C43C79AD',
           'server' => 'pgp.mit.edu',
-        }
+        },
         include    => {
           'src'    => false,
-        }
+        },
       }
 
       package { 'python-setproctitle':
