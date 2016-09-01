@@ -61,11 +61,15 @@ class logentries::dependencies {
 
       include apt
       apt::source { 'logentries':
-        location    => 'http://rep.logentries.com',
-        repos       => 'main',
-        key         => 'FA7FA2E59A243096E1B4105DA5270289C43C79AD',
-        key_server  => 'pgp.mit.edu',
-        include_src => false,
+        location   => 'http://rep.logentries.com',
+        repos      => 'main',
+        key        => {
+          'id'     =>  'FA7FA2E59A243096E1B4105DA5270289C43C79AD',
+          'server' => 'pgp.mit.edu',
+        }
+        include    => {
+          'src'    => false,
+        }
       }
 
       package { 'python-setproctitle':
