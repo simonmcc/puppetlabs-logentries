@@ -74,7 +74,7 @@ class logentries::dependencies {
 
       package { 'python-setproctitle':
         ensure  => latest,
-        require => Apt::Source['logentries']
+        require => [Apt::Source['logentries'],Class['apt::update']]
       }
     }
 
