@@ -63,8 +63,10 @@ class logentries::dependencies {
       apt::source { 'logentries':
         location    => 'http://rep.logentries.com',
         repos       => 'main',
+        # Use the full fingerprint: http://keyserver.ubuntu.com/pks/lookup?op=vindex&fingerprint=on&search=0xA5270289C43C79AD
         key         => 'FA7FA2E59A243096E1B4105DA5270289C43C79AD',
-        key_server  => 'pgp.mit.edu',
+        # key_server  => 'pgp.mit.edu',
+        key_server  => 'keyserver.ubuntu.com',
         include_src => false,
       }
 
